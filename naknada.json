@@ -1,5 +1,5 @@
 {
-  "stopa1": 1.9, // do 50KM
+  "stopa1": 1.8, // do 50KM
   "stopa2": 2.1, // od 50.01 do 100KM
   "stopa3": 2.4, // od 100.01 do 300KM
   "stopa4": 2.7, // od 300.01 do 500KM
@@ -7,7 +7,7 @@
   "stopa6": 3.5, // od 1000.01 do 2000KM
   "stopa7": 4, // od 2000.01 do 5000KM
   "stopa8": 5, // od 5000.01 do 10000KM
-  "stopa9": 0.1, // 0.10% od iznosa
+  "stopa9": 0.1, // 0.1% od iznosa
 
-  "usluge": ["Elektroprivreda", "Telekom", "Voda", "Smeće", "Platni Promet"]
+  "usluge": ["Elektroprivreda", "MTEL", "Voda", "Smeće", "Platni promet"]
 }
