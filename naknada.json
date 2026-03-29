@@ -9,14 +9,5 @@
     { "do_iznosa": 5000.0, "fiksno": 4.00, "procenat": 0.0 },
     { "do_iznosa": 10000.0, "fiksno": 5.00, "procenat": 0.0 },
     { "do_iznosa": 9999999.0, "fiksno": 0.0, "procenat": 0.10 } 
-  ],
-  "usluge": [
-    "Elektroprivreda", 
-    "Mtel", 
-    "Supernova", 
-    "Telemach", 
-    "Voda", 
-    "Smeće", 
-    "Platni promet"
   ]
 }
