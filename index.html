@@ -1,8 +1,195 @@
-<html>
-    <head>
-        <title>Dejan Popovic</title>
-    </head>
-    <body>
-        hi
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dejan</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #050505; 
+            color: #ededed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden; 
+        }
+        .glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(34, 238, 126, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none; 
+            z-index: -1;
+        }
+        .container {
+            max-width: 320px;
+            width: 100%;
+            padding: 20px;
+            z-index: 1;
+        }
+        header {
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 1.25rem;
+            font-weight: normal;
+            letter-spacing: -0.05em;
+        }
+        .forging-text {
+            display: flex;
+            align-items: flex-end; 
+            gap: 10px; 
+            margin-top: 8px;
+            margin-left: -12px; 
+        }
+        p.description {
+            position: relative; 
+            color: #888;
+            font-size: 0.875rem;
+            line-height: 1;
+            padding-bottom: 2px;
+        }
+        .hammer {
+            position: relative;
+            width: 2px;
+            height: 16px; 
+            background-color: #888; 
+            transform-origin: bottom center;
+        }
+        .hammer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -4px;
+            width: 10px;
+            height: 5px; 
+            background-color: #888;
+        }
+        .left-hammer { 
+            animation: strike-left 3s infinite ease-in; 
+        }
+        .right-hammer { 
+            animation: strike-right 3s infinite ease-in; animation-delay: 1.5s; 
+        }
+        @keyframes strike-left {
+            0%, 100% { transform: rotate(-30deg); } 
+            10% { transform: rotate(45deg); }       
+            15% { transform: rotate(35deg); }       
+            25% { transform: rotate(-30deg); }      
+        }
+        @keyframes strike-right {
+            0%, 100% { transform: rotate(30deg); }  
+            10% { transform: rotate(-45deg); }      
+            15% { transform: rotate(-35deg); }      
+            25% { transform: rotate(30deg); }       
+        }
+        .spark {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: transparent;
+            bottom: 4px; 
+        }
+        .spark-left {
+            left: -6px; 
+            animation: burst-left 3s infinite ease-out;
+        }
+        .spark-right {
+            right: -6px; 
+            animation: burst-right 3s infinite ease-out;
+            animation-delay: 1.5s; 
+        }
+        @keyframes burst-left {
+            0%, 9.9% { opacity: 0; box-shadow: 0 0 transparent; }
+            10% { opacity: 1; box-shadow: -2px -2px #ededed, -4px -5px #ededed, -5px -1px #ededed; }
+            14% { opacity: 0; box-shadow: -4px -4px #ededed, -8px -8px #ededed, -10px -2px #ededed; }
+            100% { opacity: 0; }
+        }
+        @keyframes burst-right {
+            0%, 9.9% { opacity: 0; box-shadow: 0 0 transparent; }
+            10% { opacity: 1; box-shadow: 2px -2px #ededed, 4px -5px #ededed, 5px -1px #ededed; }
+            14% { opacity: 0; box-shadow: 4px -4px #ededed, 8px -8px #ededed, 10px -2px #ededed; }
+            100% { opacity: 0; }
+        }
+        nav { 
+            display: flex; 
+            flex-direction: column; 
+        }
+        a {
+            color: #a0a0a0;
+            text-decoration: none;
+            padding: 12px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        a:hover { 
+            color: #ffffff; 
+        }
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: rgba(34, 238, 119, 0.4); 
+            transition: width 0.3s ease-out;
+        }
+        a:hover::after { 
+            width: 100%; 
+        }
+        .icon {
+            opacity: 0;
+            font-size: 0.8rem;
+            transform: translateX(-8px);
+            transition: all 0.2s ease;
+        }
+        a:hover .icon {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow"></div>
+    <main class="container">
+        <header>
+            <h1>Dejan</h1>
+            <div class="forging-text">
+                <div class="hammer left-hammer"></div>
+                <p class="description">
+                    building stuff.
+                    <span class="spark spark-left"></span>
+                    <span class="spark spark-right"></span>
+                </p>
+                <div class="hammer right-hammer"></div>
+            </div>
+        </header>
+        <nav>
+            <a href="https://github.com/pdejan" target="_blank">
+                <span>github</span>
+                <span class="icon">➔</span>
+            </a>
+            <a href="mailto:hey@dejan.ba">
+                <span>hey</span>
+                <span class="icon">➔</span>
+            </a>
+        </nav>
+    </main>
+</body>
 </html>
