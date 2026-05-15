@@ -17,11 +17,6 @@
       "iznos": 1.8
     },
     {
-      "id": "test1",
-      "naziv": "Test azuriranja",
-      "iznos": 1.8
-    },
-    {
       "id": "registracijaVozila",
       "naziv": "Registracija vozila",
       "iznos": 1.6
