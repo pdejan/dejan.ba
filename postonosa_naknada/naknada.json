@@ -1,0 +1,25 @@
+{
+  "naknada": [
+    { "do_iznosa": 50.0, "fiksno": 1.8, "procenat": 0.0 },
+    { "do_iznosa": 100.0, "fiksno": 2.1, "procenat": 0.0 },
+    { "do_iznosa": 300.0, "fiksno": 2.4, "procenat": 0.0 },
+    { "do_iznosa": 500.0, "fiksno": 2.7, "procenat": 0.0 },
+    { "do_iznosa": 1000.0, "fiksno": 3.0, "procenat": 0.0 },
+    { "do_iznosa": 2000.0, "fiksno": 3.5, "procenat": 0.0 },
+    { "do_iznosa": 5000.0, "fiksno": 4.0, "procenat": 0.0 },
+    { "do_iznosa": 10000.0, "fiksno": 5.0, "procenat": 0.0 },
+    { "do_iznosa": 9999999.0, "fiksno": 0.0, "procenat": 0.1 }
+  ],
+  "fiksne_naknade": [
+    {
+      "id": "krediti",
+      "naziv": "Uplate rate kredita",
+      "iznos": 1.8
+    },
+    {
+      "id": "registracijaVozila",
+      "naziv": "Registracija vozila",
+      "iznos": 1.6
+    }
+  ]
+}
