@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dejan - building stuff.">
+    <meta name="theme-color" content="#050505">
+    <meta name="color-scheme" content="dark">
+    <meta property="og:title" content="Dejan">
+    <meta property="og:description" content="Building stuff.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dejan.ba/">
+    <link rel="canonical" href="https://dejan.ba/">
     <title>Dejan</title>
     <style>
         * {
@@ -12,7 +20,7 @@
         }
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #050505; 
+            background-color: #050505;
             color: #ededed;
             display: flex;
             flex-direction: column;
@@ -20,7 +28,7 @@
             justify-content: center;
             min-height: 100dvh;
             overflow-x: hidden;
-            -webkit-text-size-adjust: 100%; 
+            -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
         }
         .glow {
@@ -32,7 +40,7 @@
             transform: translate(-50%, -50%);
             background: radial-gradient(circle, rgba(34, 238, 126, 0.04) 0%, transparent 70%);
             border-radius: 50%;
-            pointer-events: none; 
+            pointer-events: none;
             z-index: -1;
         }
         .container {
@@ -51,13 +59,13 @@
         }
         .forging-text {
             display: flex;
-            align-items: flex-end; 
-            gap: 10px; 
+            align-items: flex-end;
+            gap: 10px;
             margin-top: 8px;
-            margin-left: -12px; 
+            margin-left: -12px;
         }
         p.description {
-            position: relative; 
+            position: relative;
             color: #888;
             font-size: 0.875rem;
             line-height: 1;
@@ -66,8 +74,8 @@
         .hammer {
             position: relative;
             width: 2px;
-            height: 16px; 
-            background-color: #888; 
+            height: 16px;
+            background-color: #888;
             transform-origin: bottom center;
         }
         .hammer::before {
@@ -76,42 +84,43 @@
             top: -2px;
             left: -4px;
             width: 10px;
-            height: 5px; 
+            height: 5px;
             background-color: #888;
         }
-        .left-hammer { 
-            animation: strike-left 3s infinite ease-in; 
+        .left-hammer {
+            animation: strike-left 3s infinite ease-in;
         }
-        .right-hammer { 
-            animation: strike-right 3s infinite ease-in; animation-delay: 1.5s; 
+        .right-hammer {
+            animation: strike-right 3s infinite ease-in;
+            animation-delay: 1.5s;
         }
         @keyframes strike-left {
-            0%, 100% { transform: rotate(-30deg); } 
-            10% { transform: rotate(45deg); }       
-            15% { transform: rotate(35deg); }       
-            25% { transform: rotate(-30deg); }      
+            0%, 100% { transform: rotate(-30deg); }
+            10% { transform: rotate(45deg); }
+            15% { transform: rotate(35deg); }
+            25% { transform: rotate(-30deg); }
         }
         @keyframes strike-right {
-            0%, 100% { transform: rotate(30deg); }  
-            10% { transform: rotate(-45deg); }      
-            15% { transform: rotate(-35deg); }      
-            25% { transform: rotate(30deg); }       
+            0%, 100% { transform: rotate(30deg); }
+            10% { transform: rotate(-45deg); }
+            15% { transform: rotate(-35deg); }
+            25% { transform: rotate(30deg); }
         }
         .spark {
             position: absolute;
             width: 2px;
             height: 2px;
             background-color: transparent;
-            bottom: 4px; 
+            bottom: 4px;
         }
         .spark-left {
-            left: -6px; 
+            left: -6px;
             animation: burst-left 3s infinite ease-out;
         }
         .spark-right {
-            right: -6px; 
+            right: -6px;
             animation: burst-right 3s infinite ease-out;
-            animation-delay: 1.5s; 
+            animation-delay: 1.5s;
         }
         @keyframes burst-left {
             0%, 9.9% { opacity: 0; box-shadow: 0 0 transparent; }
@@ -125,9 +134,9 @@
             14% { opacity: 0; box-shadow: 4px -4px #ededed, 8px -8px #ededed, 10px -2px #ededed; }
             100% { opacity: 0; }
         }
-        nav { 
-            display: flex; 
-            flex-direction: column; 
+        nav {
+            display: flex;
+            flex-direction: column;
         }
         a {
             color: #a0a0a0;
@@ -139,8 +148,13 @@
             position: relative;
             transition: color 0.2s ease;
         }
-        a:hover { 
-            color: #ffffff; 
+        a:hover,
+        a:focus-visible {
+            color: #ffffff;
+        }
+        a:focus-visible {
+            outline: 1px solid rgba(34, 238, 119, 0.5);
+            outline-offset: 6px;
         }
         a::after {
             content: '';
@@ -149,11 +163,12 @@
             left: 0;
             width: 0;
             height: 1px;
-            background-color: rgba(34, 238, 119, 0.4); 
+            background-color: rgba(34, 238, 119, 0.4);
             transition: width 0.3s ease-out;
         }
-        a:hover::after { 
-            width: 100%; 
+        a:hover::after,
+        a:focus-visible::after {
+            width: 100%;
         }
         .icon {
             opacity: 0;
@@ -161,35 +176,52 @@
             transform: translateX(-8px);
             transition: all 0.2s ease;
         }
-        a:hover .icon {
+        a:hover .icon,
+        a:focus-visible .icon {
             opacity: 1;
             transform: translateX(0);
+        }
+        @media (hover: none) {
+            .icon {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="glow"></div>
+    <div class="glow" aria-hidden="true"></div>
     <main class="container">
         <header>
             <h1>Dejan</h1>
             <div class="forging-text">
-                <div class="hammer left-hammer"></div>
+                <div class="hammer left-hammer" aria-hidden="true"></div>
                 <p class="description">
                     building stuff.
-                    <span class="spark spark-left"></span>
-                    <span class="spark spark-right"></span>
+                    <span class="spark spark-left" aria-hidden="true"></span>
+                    <span class="spark spark-right" aria-hidden="true"></span>
                 </p>
-                <div class="hammer right-hammer"></div>
+                <div class="hammer right-hammer" aria-hidden="true"></div>
             </div>
         </header>
         <nav>
-            <a href="https://github.com/pdejan" target="_blank">
+            <a href="https://github.com/pdejan" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
                 <span>github</span>
-                <span class="icon">➔</span>
+                <span class="icon" aria-hidden="true">&rarr;</span>
             </a>
-            <a href="mailto:hey@dejan.ba">
+            <a href="mailto:hey@dejan.ba" aria-label="Email Dejan">
                 <span>hey</span>
-                <span class="icon">➔</span>
+                <span class="icon" aria-hidden="true">&rarr;</span>
             </a>
         </nav>
     </main>
