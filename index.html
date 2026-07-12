@@ -1,229 +1,531 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Dejan - building stuff.">
-    <meta name="theme-color" content="#050505">
-    <meta name="color-scheme" content="dark">
-    <meta property="og:title" content="Dejan">
-    <meta property="og:description" content="Building stuff.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dejan.ba/">
-    <link rel="canonical" href="https://dejan.ba/">
-    <title>Dejan</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="The personal site of Dejan Popovic." />
+    <meta name="theme-color" content="#f4f3ef" />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:title" content="Dejan Popovic" />
+    <meta
+      property="og:description"
+      content="The personal site of Dejan Popovic."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dejan.ba/" />
+    <link rel="canonical" href="https://dejan.ba/" />
+    <link rel="icon" href="img/dejan-ba/favicon.ico" sizes="any" />
+    <title>Dejan Popovic</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #050505;
-            color: #ededed;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100dvh;
-            overflow-x: hidden;
-            -webkit-text-size-adjust: 100%;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 600px;
-            height: 600px;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(34, 238, 126, 0.04) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        .container {
-            max-width: 320px;
-            width: 100%;
-            padding: 20px;
-            z-index: 1;
+      :root {
+        --background: #f4f3ef;
+        --text: #171816;
+        --muted: #70726d;
+        --line: #d3d4ce;
+        --field: #74808d;
+        --field-hot: #315f8c;
+      }
+      :root[data-theme="dark"] {
+        --background: #0c0e0d;
+        --text: #eeeeea;
+        --muted: #92968f;
+        --line: #30342f;
+        --field: #778b9d;
+        --field-hot: #8fc7ff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--background);
+      }
+      body {
+        min-width: 280px;
+        min-height: 100dvh;
+        margin: 0;
+        overflow: hidden;
+        color: var(--text);
+        background: var(--background);
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", monospace;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          color 180ms ease,
+          background-color 180ms ease;
+      }
+      ::selection {
+        color: var(--background);
+        background: var(--text);
+      }
+      #field {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        pointer-events: none;
+      }
+      .page {
+        position: relative;
+        z-index: 1;
+        width: min(1080px, calc(100% - 48px));
+        min-height: 100dvh;
+        margin: 0 auto;
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+      header {
+        min-height: 96px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        width: 60px;
+        height: 60px;
+        display: block;
+        transition:
+          opacity 160ms ease,
+          transform 180ms ease;
+      }
+      .brand:hover {
+        opacity: 0.72;
+        transform: rotate(-2deg) scale(1.035);
+      }
+      .brand:focus-visible {
+        outline: 2px solid var(--field-hot);
+        outline-offset: 5px;
+      }
+      .brand-mark {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: contain;
+        filter: none;
+        transition: filter 180ms ease;
+      }
+      :root[data-theme="dark"] .brand-mark {
+        filter: brightness(0) invert(1);
+      }
+      .theme-toggle {
+        position: relative;
+        width: 38px;
+        height: 38px;
+        border: 0;
+        border-radius: 50%;
+        padding: 0;
+        color: var(--text);
+        background: transparent;
+        cursor: pointer;
+      }
+      .theme-toggle:focus-visible,
+      a:focus-visible {
+        outline: 2px solid var(--field-hot);
+        outline-offset: 4px;
+      }
+      .theme-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+        transition:
+          opacity 260ms ease,
+          transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .sun {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-70deg) scale(0.45);
+      }
+      .moon {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(-12deg) scale(1);
+      }
+      :root[data-theme="dark"] .sun {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0) scale(1);
+      }
+      :root[data-theme="dark"] .moon {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(55deg) scale(0.35);
+      }
+      .theme-toggle:hover .theme-icon {
+        color: var(--field-hot);
+      }
+      main {
+        display: flex;
+        align-items: center;
+        padding: 70px 0 118px;
+      }
+      .content {
+        position: relative;
+        width: min(470px, 100%);
+      }
+      .content::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        inset: -80px -110px;
+        background: radial-gradient(
+          ellipse at center,
+          var(--background) 0%,
+          color-mix(in srgb, var(--background) 88%, transparent) 45%,
+          transparent 74%
+        );
+        pointer-events: none;
+      }
+      .eyebrow {
+        margin: 0 0 16px;
+        color: var(--muted);
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: clamp(2.8rem, 7vw, 5.2rem);
+        font-weight: 600;
+        line-height: 0.9;
+        letter-spacing: -0.07em;
+      }
+      h1 span {
+        display: block;
+      }
+      .about {
+        max-width: 34ch;
+        margin: 27px 0 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.65;
+      }
+      nav {
+        margin-top: 42px;
+      }
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 28px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .links a {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 0;
+        color: var(--text);
+        font-size: 0.78rem;
+        text-decoration: none;
+      }
+      .links a::before {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 1px;
+        left: 0;
+        height: 1px;
+        background: var(--field-hot);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 150ms ease;
+      }
+      .links a::after {
+        content: "↗";
+        color: var(--field-hot);
+        transition: transform 150ms ease;
+      }
+      .links a[href^="mailto"]::after {
+        content: "→";
+      }
+      .links a:hover::before,
+      .links a:focus-visible::before {
+        transform: scaleX(1);
+      }
+      .links a:hover::after,
+      .links a:focus-visible::after {
+        transform: translate(3px, -3px);
+      }
+      .links a[href^="mailto"]:hover::after,
+      .links a[href^="mailto"]:focus-visible::after {
+        transform: translateX(3px);
+      }
+      .field-hint {
+        position: fixed;
+        right: clamp(24px, 4vw, 64px);
+        bottom: 28px;
+        z-index: 2;
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.6rem;
+        letter-spacing: 0.06em;
+        opacity: 0.72;
+        pointer-events: none;
+      }
+      @media (max-width: 680px) {
+        .page {
+          width: calc(100% - 32px);
         }
         header {
-            margin-bottom: 40px;
+          min-height: 82px;
+        }
+        .brand {
+          width: 52px;
+          height: 52px;
+        }
+        main {
+          align-items: flex-end;
+          padding: 90px 0 100px;
+        }
+        .content::before {
+          inset: -65px -45px;
+        }
+        .field-hint {
+          right: 16px;
+          bottom: 16px;
+        }
+      }
+      @media (max-height: 620px) and (min-width: 681px) {
+        main {
+          padding: 52px 0 72px;
         }
         h1 {
-            font-size: 1.25rem;
-            font-weight: normal;
-            letter-spacing: -0.05em;
+          font-size: 3.6rem;
         }
-        .forging-text {
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-            margin-top: 8px;
-            margin-left: -12px;
-        }
-        p.description {
-            position: relative;
-            color: #888;
-            font-size: 0.875rem;
-            line-height: 1;
-            padding-bottom: 2px;
-        }
-        .hammer {
-            position: relative;
-            width: 2px;
-            height: 16px;
-            background-color: #888;
-            transform-origin: bottom center;
-        }
-        .hammer::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -4px;
-            width: 10px;
-            height: 5px;
-            background-color: #888;
-        }
-        .left-hammer {
-            animation: strike-left 3s infinite ease-in;
-        }
-        .right-hammer {
-            animation: strike-right 3s infinite ease-in;
-            animation-delay: 1.5s;
-        }
-        @keyframes strike-left {
-            0%, 100% { transform: rotate(-30deg); }
-            10% { transform: rotate(45deg); }
-            15% { transform: rotate(35deg); }
-            25% { transform: rotate(-30deg); }
-        }
-        @keyframes strike-right {
-            0%, 100% { transform: rotate(30deg); }
-            10% { transform: rotate(-45deg); }
-            15% { transform: rotate(-35deg); }
-            25% { transform: rotate(30deg); }
-        }
-        .spark {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background-color: transparent;
-            bottom: 4px;
-        }
-        .spark-left {
-            left: -6px;
-            animation: burst-left 3s infinite ease-out;
-        }
-        .spark-right {
-            right: -6px;
-            animation: burst-right 3s infinite ease-out;
-            animation-delay: 1.5s;
-        }
-        @keyframes burst-left {
-            0%, 9.9% { opacity: 0; box-shadow: 0 0 transparent; }
-            10% { opacity: 1; box-shadow: -2px -2px #ededed, -4px -5px #ededed, -5px -1px #ededed; }
-            14% { opacity: 0; box-shadow: -4px -4px #ededed, -8px -8px #ededed, -10px -2px #ededed; }
-            100% { opacity: 0; }
-        }
-        @keyframes burst-right {
-            0%, 9.9% { opacity: 0; box-shadow: 0 0 transparent; }
-            10% { opacity: 1; box-shadow: 2px -2px #ededed, 4px -5px #ededed, 5px -1px #ededed; }
-            14% { opacity: 0; box-shadow: 4px -4px #ededed, 8px -8px #ededed, 10px -2px #ededed; }
-            100% { opacity: 0; }
+        .about {
+          margin-top: 20px;
         }
         nav {
-            display: flex;
-            flex-direction: column;
+          margin-top: 28px;
         }
-        a {
-            color: #a0a0a0;
-            text-decoration: none;
-            padding: 12px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            transition: color 0.2s ease;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.01ms !important;
         }
-        a:hover,
-        a:focus-visible {
-            color: #ffffff;
+        .field-hint {
+          display: none;
         }
-        a:focus-visible {
-            outline: 1px solid rgba(34, 238, 119, 0.5);
-            outline-offset: 6px;
-        }
-        a::after {
-            content: '';
-            position: absolute;
-            bottom: 6px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: rgba(34, 238, 119, 0.4);
-            transition: width 0.3s ease-out;
-        }
-        a:hover::after,
-        a:focus-visible::after {
-            width: 100%;
-        }
-        .icon {
-            opacity: 0;
-            font-size: 0.8rem;
-            transform: translateX(-8px);
-            transition: all 0.2s ease;
-        }
-        a:hover .icon,
-        a:focus-visible .icon {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        @media (hover: none) {
-            .icon {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-    <div class="glow" aria-hidden="true"></div>
-    <main class="container">
-        <header>
-            <h1>Dejan</h1>
-            <div class="forging-text">
-                <div class="hammer left-hammer" aria-hidden="true"></div>
-                <p class="description">
-                    building stuff.
-                    <span class="spark spark-left" aria-hidden="true"></span>
-                    <span class="spark spark-right" aria-hidden="true"></span>
-                </p>
-                <div class="hammer right-hammer" aria-hidden="true"></div>
-            </div>
-        </header>
-        <nav>
-            <a href="https://github.com/pdejan" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-                <span>github</span>
-                <span class="icon" aria-hidden="true">&rarr;</span>
-            </a>
-            <a href="mailto:hey@dejan.ba" aria-label="Email Dejan">
-                <span>hey</span>
-                <span class="icon" aria-hidden="true">&rarr;</span>
-            </a>
-        </nav>
-    </main>
-</body>
+  </head>
+  <body>
+    <canvas id="field" aria-hidden="true"></canvas>
+    <div class="page">
+      <header>
+        <a class="brand" href="./" aria-label="Dejan Popovic home">
+          <img class="brand-mark" src="img/dejan-ba/logo.svg" alt="Logo" />
+        </a>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark theme"
+        >
+          <svg class="theme-icon sun" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"
+            ></path>
+          </svg>
+          <svg class="theme-icon moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"
+            ></path>
+          </svg>
+        </button>
+      </header>
+      <main>
+        <section class="content" aria-labelledby="name">
+          <p class="eyebrow">Hello, I’m</p>
+          <h1 id="name">
+            <span>Dejan</span>
+            <span>Popovic</span>
+          </h1>
+          <p class="about">I make software and occasionally share it.</p>
+          <nav aria-label="Contact links">
+            <ul class="links">
+              <li>
+                <a
+                  href="https://github.com/pdejan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >GitHub</a
+                >
+              </li>
+              <li><a href="mailto:hey@dejan.ba">Email</a></li>
+            </ul>
+          </nav>
+        </section>
+      </main>
+    </div>
+    <script>
+      (() => {
+        const root = document.documentElement;
+        const canvas = document.getElementById("field");
+        const context = canvas.getContext("2d");
+        const themeToggle = document.getElementById("theme-toggle");
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        const pointer = { x: -1000, y: -1000, active: false };
+        let width = 0;
+        let height = 0;
+        let scale = 1;
+        let rows = [];
+        let frame = 0;
+
+        const cssColor = (name) =>
+          getComputedStyle(root).getPropertyValue(name).trim();
+
+        const hash = (x, y) => {
+          const value = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+          return value - Math.floor(value);
+        };
+
+        const buildField = () => {
+          rows = [];
+          const spacingX = width < 600 ? 22 : 25;
+          const spacingY = width < 600 ? 38 : 43;
+          const rowCount = Math.ceil(height / spacingY) + 4;
+          const columnCount = Math.ceil(width / spacingX) + 6;
+
+          for (let row = -2; row < rowCount; row += 1) {
+            const points = [];
+            for (let column = -3; column < columnCount; column += 1) {
+              const seed = hash(column, row);
+              points.push({
+                x: column * spacingX,
+                y: row * spacingY,
+                char: String(Math.floor(seed * 10)),
+                seed,
+                phase: hash(row, column) * Math.PI * 2,
+              });
+            }
+            rows.push(points);
+          }
+        };
+
+        const resize = () => {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          scale = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.round(width * scale);
+          canvas.height = Math.round(height * scale);
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${height}px`;
+          context.setTransform(scale, 0, 0, scale, 0, 0);
+          buildField();
+          if (reduceMotion) draw(0);
+        };
+
+        const draw = (time) => {
+          context.clearRect(0, 0, width, height);
+          const seconds = time * 0.001;
+          const baseColor = cssColor("--field");
+          const hotColor = cssColor("--field-hot");
+          context.font = `${width < 600 ? 9 : 10}px ui-monospace, monospace`;
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+
+          rows.forEach((points, rowIndex) => {
+            points.forEach((point) => {
+              const wave =
+                Math.sin(point.x * 0.006 + seconds * 0.22 + point.phase) * 13 +
+                Math.sin(rowIndex * 0.72 + seconds * 0.16) * 9;
+              let x = point.x;
+              let y = point.y + wave;
+              const dx = x - pointer.x;
+              const dy = y - pointer.y;
+              const distance = Math.hypot(dx, dy);
+              const influence = pointer.active
+                ? Math.max(0, 1 - distance / 170)
+                : 0;
+
+              if (influence > 0) {
+                const angle = Math.atan2(dy, dx);
+                const push = influence * influence * 26;
+                x += Math.cos(angle) * push;
+                y += Math.sin(angle) * push;
+              }
+
+              const edgeFade = Math.min(
+                1,
+                x / 130,
+                (width - x) / 130,
+                y / 90,
+                (height - y) / 90,
+              );
+              const density = point.seed > 0.26 ? 1 : 0.22;
+              const alpha =
+                Math.max(0, edgeFade) * density * (0.13 + influence * 0.62);
+
+              context.globalAlpha = alpha;
+              context.fillStyle = influence > 0.2 ? hotColor : baseColor;
+              context.fillText(point.char, x, y);
+            });
+          });
+
+          context.globalAlpha = 1;
+          if (!reduceMotion) frame = window.requestAnimationFrame(draw);
+        };
+
+        const setTheme = (theme) => {
+          root.dataset.theme = theme;
+          const dark = theme === "dark";
+          themeToggle.setAttribute(
+            "aria-label",
+            `Switch to ${dark ? "light" : "dark"} theme`,
+          );
+          themeColor.content = dark ? "#0c0e0d" : "#f4f3ef";
+          if (reduceMotion) draw(0);
+        };
+
+        let initialTheme = window.matchMedia("(prefers-color-scheme: dark)")
+          .matches
+          ? "dark"
+          : "light";
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (storedTheme === "light" || storedTheme === "dark")
+            initialTheme = storedTheme;
+        } catch (_) {}
+
+        themeToggle.addEventListener("click", () => {
+          const theme = root.dataset.theme === "dark" ? "light" : "dark";
+          setTheme(theme);
+          try {
+            localStorage.setItem("theme", theme);
+          } catch (_) {}
+        });
+
+        window.addEventListener(
+          "pointermove",
+          (event) => {
+            pointer.x = event.clientX;
+            pointer.y = event.clientY;
+            pointer.active = true;
+          },
+          { passive: true },
+        );
+
+        document.documentElement.addEventListener("pointerleave", () => {
+          pointer.active = false;
+        });
+
+        window.addEventListener("resize", resize, { passive: true });
+
+        setTheme(initialTheme);
+        resize();
+        if (!reduceMotion) frame = window.requestAnimationFrame(draw);
+      })();
+    </script>
+  </body>
 </html>
