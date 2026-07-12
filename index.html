@@ -41,9 +41,11 @@
       }
       body {
         min-width: 280px;
-        min-height: 100dvh;
+        min-height: 100vh;
+        min-height: 100svh;
         margin: 0;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
         color: var(--text);
         background: var(--background);
         font-family:
@@ -71,7 +73,8 @@
         position: relative;
         z-index: 1;
         width: min(1080px, calc(100% - 48px));
-        min-height: 100dvh;
+        min-height: 100vh;
+        min-height: 100svh;
         margin: 0 auto;
         display: grid;
         grid-template-rows: auto 1fr;
@@ -267,6 +270,11 @@
         opacity: 0.72;
         pointer-events: none;
       }
+      @media (hover: none) and (pointer: coarse) {
+        body {
+          overflow-y: auto;
+        }
+      }
       @media (max-width: 680px) {
         .page {
           width: calc(100% - 32px);
@@ -296,8 +304,8 @@
           margin-top: 34px;
         }
         .links {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          display: flex;
+          flex-wrap: wrap;
           gap: 10px;
         }
         .links a {
@@ -312,24 +320,83 @@
           display: none;
         }
         .content::before {
-          inset: -65px -45px;
+          inset: -65px 0;
         }
         .field-hint {
           display: none;
         }
       }
-      @media (max-height: 620px) and (min-width: 681px) {
+      @media (max-height: 520px) and (orientation: landscape) {
+        body {
+          overflow-y: auto;
+        }
+        .page {
+          width: calc(100% - 40px);
+        }
+        header {
+          min-height: 64px;
+        }
+        .brand {
+          width: 44px;
+          height: 44px;
+        }
+        .theme-toggle {
+          width: 44px;
+          height: 44px;
+        }
         main {
-          padding: 52px 0 72px;
+          align-items: flex-start;
+          padding: 26px 0 42px;
+        }
+        .content {
+          width: 100%;
+          max-width: none;
+          display: grid;
+          grid-template-columns: minmax(220px, 0.85fr) minmax(220px, 1fr);
+          grid-template-areas:
+            "eyebrow about"
+            "name links";
+          column-gap: clamp(36px, 8vw, 90px);
+          row-gap: 16px;
+          align-items: end;
+        }
+        .eyebrow {
+          grid-area: eyebrow;
+          margin: 0;
         }
         h1 {
-          font-size: 3.6rem;
+          grid-area: name;
+          font-size: clamp(2.7rem, 7vw, 3.5rem);
         }
         .about {
-          margin-top: 20px;
+          grid-area: about;
+          margin: 0;
         }
         nav {
-          margin-top: 28px;
+          grid-area: links;
+          margin: 0;
+        }
+        .links {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+        .links a {
+          min-height: 44px;
+          justify-content: space-between;
+          padding: 0 14px;
+          border: 1px solid var(--line);
+          border-radius: 10px;
+          background: color-mix(in srgb, var(--background) 82%, transparent);
+        }
+        .links a::before {
+          display: none;
+        }
+        .content::before {
+          inset: -45px 0;
+        }
+        .field-hint {
+          display: none;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -403,6 +470,7 @@
         const reduceMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
+        const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
         const pointer = { x: -1000, y: -1000, active: false, energy: 0 };
         let width = 0;
         let height = 0;
@@ -442,13 +510,19 @@
         };
 
         const resize = () => {
-          width = window.innerWidth;
-          height = window.innerHeight;
+          const nextWidth = document.documentElement.clientWidth;
+          const nextHeight = window.innerHeight;
+
+          // Mobile browser chrome frequently changes only the viewport height.
+          // Ignoring those transient resizes prevents the canvas from repeatedly
+          // rebuilding and moving the page. Orientation changes still rebuild it.
+          if (coarsePointer && width && Math.abs(nextWidth - width) < 2) return;
+
+          width = nextWidth;
+          height = nextHeight;
           scale = Math.min(window.devicePixelRatio || 1, 2);
           canvas.width = Math.round(width * scale);
           canvas.height = Math.round(height * scale);
-          canvas.style.width = `${width}px`;
-          canvas.style.height = `${height}px`;
           context.setTransform(scale, 0, 0, scale, 0, 0);
           buildField();
           if (reduceMotion) draw(0);
