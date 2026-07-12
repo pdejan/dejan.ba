@@ -278,16 +278,44 @@
           width: 52px;
           height: 52px;
         }
+        .theme-toggle {
+          width: 44px;
+          height: 44px;
+        }
         main {
-          align-items: flex-end;
-          padding: 90px 0 100px;
+          align-items: center;
+          padding: 120px 0 70px;
+        }
+        h1 {
+          font-size: clamp(3.1rem, 14vw, 4.25rem);
+        }
+        .about {
+          margin-top: 22px;
+        }
+        nav {
+          margin-top: 34px;
+        }
+        .links {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+        }
+        .links a {
+          min-height: 48px;
+          justify-content: space-between;
+          padding: 0 14px;
+          border: 1px solid var(--line);
+          border-radius: 10px;
+          background: color-mix(in srgb, var(--background) 82%, transparent);
+        }
+        .links a::before {
+          display: none;
         }
         .content::before {
           inset: -65px -45px;
         }
         .field-hint {
-          right: 16px;
-          bottom: 16px;
+          display: none;
         }
       }
       @media (max-height: 620px) and (min-width: 681px) {
@@ -375,7 +403,7 @@
         const reduceMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
-        const pointer = { x: -1000, y: -1000, active: false };
+        const pointer = { x: -1000, y: -1000, active: false, energy: 0 };
         let width = 0;
         let height = 0;
         let scale = 1;
@@ -431,6 +459,9 @@
           const seconds = time * 0.001;
           const baseColor = cssColor("--field");
           const hotColor = cssColor("--field-hot");
+          pointer.energy +=
+            ((pointer.active ? 1 : 0) - pointer.energy) *
+            (pointer.active ? 0.18 : 0.055);
           context.font = `${width < 600 ? 9 : 10}px ui-monospace, monospace`;
           context.textAlign = "center";
           context.textBaseline = "middle";
@@ -445,9 +476,8 @@
               const dx = x - pointer.x;
               const dy = y - pointer.y;
               const distance = Math.hypot(dx, dy);
-              const influence = pointer.active
-                ? Math.max(0, 1 - distance / 170)
-                : 0;
+              const influence =
+                Math.max(0, 1 - distance / 170) * pointer.energy;
 
               if (influence > 0) {
                 const angle = Math.atan2(dy, dx);
@@ -512,6 +542,33 @@
             pointer.x = event.clientX;
             pointer.y = event.clientY;
             pointer.active = true;
+          },
+          { passive: true },
+        );
+
+        window.addEventListener(
+          "pointerdown",
+          (event) => {
+            pointer.x = event.clientX;
+            pointer.y = event.clientY;
+            pointer.active = true;
+            pointer.energy = 1;
+          },
+          { passive: true },
+        );
+
+        window.addEventListener(
+          "pointerup",
+          (event) => {
+            if (event.pointerType !== "mouse") pointer.active = false;
+          },
+          { passive: true },
+        );
+
+        window.addEventListener(
+          "pointercancel",
+          () => {
+            pointer.active = false;
           },
           { passive: true },
         );
