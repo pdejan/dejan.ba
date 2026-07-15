@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Dejan Popovic DP monogram</title>
+  <desc id="desc">An offset geometric D and P monogram joined by a distinctive curved negative-space joint.</desc>
+  <defs>
+    <mask id="signature-cuts" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="white"/>
+      <path d="M 448 516 C 448 476 480 444 520 444 L 556 444 L 556 480 L 520 480 C 500 480 484 496 484 516 Z" fill="black"/>
+      <path d="M 442 872 L 558 838 L 558 920 L 442 920 Z" fill="black"/>
+    </mask>
+  </defs>
+  <g fill="none" stroke="#121212" stroke-width="116" stroke-linecap="butt" stroke-linejoin="round" mask="url(#signature-cuts)">
+    <path d="M 170 510 L 170 170 L 430 170 C 570 170 650 238 650 342 C 650 454 578 510 458 510 L 170 510"/>
+    <path d="M 500 872 L 500 410 L 716 410 C 820 410 872 466 872 552 C 872 638 820 696 716 696 L 558 696"/>
+  </g>
+</svg>
