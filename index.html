@@ -12,7 +12,7 @@
     <meta property="og:url" content="https://dejan.ba/" />
     <link rel="canonical" href="https://dejan.ba/" />
     <link rel="icon" href="img/dejan-ba/favicon.ico" sizes="any" />
-    <title>Dejan Popovic</title>
+    <title>Dejan</title>
     <style>
       :root {
         --background: #f4f3ef;
@@ -412,7 +412,7 @@
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="page">
       <header>
-        <a class="brand" href="./" aria-label="Dejan Popovic home">
+        <a class="brand" href="./" aria-label="Dejan home">
           <img class="brand-mark" src="img/dejan-ba/logo.svg" alt="Logo" />
         </a>
         <button
@@ -508,12 +508,8 @@
         const resize = () => {
           const nextWidth = document.documentElement.clientWidth;
           const nextHeight = window.innerHeight;
-
-          // Mobile browser chrome frequently changes only the viewport height.
-          // Ignoring those transient resizes prevents the canvas from repeatedly
-          // rebuilding and moving the page. Orientation changes still rebuild it.
+          
           if (coarsePointer && width && Math.abs(nextWidth - width) < 2) return;
-
           width = nextWidth;
           height = nextHeight;
           scale = Math.min(window.devicePixelRatio || 1, 2);
